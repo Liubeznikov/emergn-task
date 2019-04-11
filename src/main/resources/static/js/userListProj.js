@@ -15,7 +15,7 @@ Vue.component('searchForm', {
     '<p>Name </p>'  +
     '<input  type="text" placeholder="info" v-model="name" />' +
 
-    '<br v-for = "user in users "> {{user.login}}</br>' +
+
 
     '<button @click ="searchButton"> Search </button>'+
 
