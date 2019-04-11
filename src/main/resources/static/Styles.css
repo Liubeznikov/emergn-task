@@ -1,15 +1,4 @@
-.gameButton{
-    width: 40px;
-    height: 40px;
-}
-
-.performanceButton{
-    width: 100px;
-    height: 40px;
-    background-color: burlywood;
-}
-.doubleButton{
-    width: 120px;
-    height: 50px;
-    background-color: chocolate;
+.userListTable{
+    vertical-align: top;
+    border: 2px;
 }

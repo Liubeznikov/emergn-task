@@ -1,4 +1,4 @@
-const messageApi = Vue.resource('/users{/id}');
+const userApi = Vue.resource('/users{/id}');
 Vue.component('searchForm', {
 
     data: function() {
@@ -27,19 +27,19 @@ Vue.component('searchForm', {
 });
 
 
-Vue.component('userTable', {
 
+Vue.component('userTable', {
+    props: ['users'],
     data: function() {
         return{
-            login: ['a', 'b','c'],
-            name: ['a', 'b','c']
+            user: null
 
         }
     },
     template:
     '<div>'+
     '<h3 align="center"> User Table</h3>' +
-    '<table align="center" >'+
+    '<table border="1" >'+
     '<tr >'+
     '<td >'+
     '<p> Login </p>'+
@@ -48,18 +48,25 @@ Vue.component('userTable', {
     '<p> Name </p>'+
     '</td>' +
     '</tr>' +
-    '<tr v-for="n in 3">'+
+    '<tr v-for="user in users">'+
     '<td >'+
-    '<p @click="clickProcessor(login[n-1])"> {{login[n-1]}}</p>'+
+    '<p @click="clickProcessor(user.login)"> {{user.login}}</p>'+
     '</td>' +
     '<td >'+
-    '<p @click="clickProcessor(name[n-1])"> {{name[n-1]}}</p>'+
+    '<p @click="clickProcessor(user.login)"> {{user.name}}</p>'+
     '</td>' +
 
     '</tr>' +
     '</table>'+
 
     '</div>',
+    created: function() {
+        userApi.get().then(result =>
+        result.json().then(data =>
+        data.forEach(user => this.users.push(user))
+    )
+    )
+    },
     methods: {
 
         clickProcessor: function(str){
@@ -172,13 +179,23 @@ const appUserList = new Vue({
     template:
     '<div>' +
     '<logOutButton/>'+
+    '<table border="1">' +
+     '<tr >' +
+    '<td  >' +
     '<searchForm />' +
+    '</td>' +
+    '<td>' +
+    '<userTable :users = "users"/>' +
+    '</td>' +
+    '<td>' +
     '<userProfile />' +
-    '<br> </br>'+
-    '<userTable/>' +
+    '</td>' +
+    '</tr>' +
+    '</table>'+
+
     '</div>',
     data: {
-        messages: []
+        users: []
     }
 });
 
