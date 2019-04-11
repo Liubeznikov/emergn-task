@@ -1,27 +1,30 @@
-const userApi = Vue.resource('/users{/id}');
+const userApi = Vue.resource('/users{/name}');
+const userByLoginApi = Vue.resource('/users/login{/login}');
 Vue.component('searchForm', {
-
+    props: ['users'],
     data: function() {
         return{
-            login: ''
+            user: null,
+            name: ''
 
         }
     },
     template:
     '<div>'+
     '<h3> Search Form</h3>' +
-    '<p>Login </p>'  +
-    '<input  type="text" placeholder="info" v-model="login" />' +
+    '<p>Name </p>'  +
+    '<input  type="text" placeholder="info" v-model="name" />' +
 
-    '<br> </br>' +
-    '<button @click ="searchButton"> Login </button>'+
+    '<br v-for = "user in users "> {{user.login}}</br>' +
+
+    '<button @click ="searchButton"> Search </button>'+
 
     '</div>',
+
     methods: {
 
         searchButton: function(){
-           alert("search");
-
+          alert("search")
         }
     }
 });
@@ -67,6 +70,7 @@ Vue.component('userTable', {
     )
     )
     },
+
     methods: {
 
         clickProcessor: function(str){
