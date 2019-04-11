@@ -134,7 +134,7 @@ Vue.component('userProfile', {
 
         },
         deleteButtonClick: function(){
-            window.location.href='loginPage.html';
+            window.location.href='index.html';
 
         }
     }
