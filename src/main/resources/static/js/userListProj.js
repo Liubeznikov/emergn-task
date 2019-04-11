@@ -1,11 +1,12 @@
 const userApi = Vue.resource('/users{/name}');
 const userByLoginApi = Vue.resource('/users/login{/login}');
+var eventBus = new Vue();
 Vue.component('searchForm', {
     props: ['users'],
     data: function() {
         return{
             user: null,
-            name: ''
+            nameS: ''
 
         }
     },
@@ -13,7 +14,7 @@ Vue.component('searchForm', {
     '<div>'+
     '<h3> Search Form</h3>' +
     '<p>Name </p>'  +
-    '<input  type="text" placeholder="info" v-model="name" />' +
+    '<input  type="text" placeholder="info" v-model="nameS" />' +
 
 
 
@@ -24,7 +25,7 @@ Vue.component('searchForm', {
     methods: {
 
         searchButton: function(){
-          alert("search")
+            eventBus.$emit("searchClick", this.nameS);
         }
     }
 });
@@ -35,7 +36,8 @@ Vue.component('userTable', {
     props: ['users'],
     data: function() {
         return{
-            user: null
+            user: null,
+            userName: ''
 
         }
     },
@@ -64,11 +66,23 @@ Vue.component('userTable', {
 
     '</div>',
     created: function() {
+        eventBus.$on("searchClick", (nameS)=>{
+            this.userName = nameS;
+            this.users.length =0;
+        userApi.get({name: this.userName}).then(result =>
+        result.json().then(data =>
+        data.forEach(user => this.users.push(user))))
+    });
+        if (this.userName === '' ){
+            this.users.length =0;
         userApi.get().then(result =>
         result.json().then(data =>
-        data.forEach(user => this.users.push(user))
-    )
-    )
+        data.forEach(user => this.users.push(user))))
+    }
+
+
+
+
     },
 
     methods: {
