@@ -88,21 +88,22 @@ Vue.component('userTable', {
     methods: {
 
         clickProcessor: function(str){
-            alert(str);
+            eventBus.$emit("clickOnTable", str);
 
         }
     }
 });
 
 Vue.component('userProfile', {
-
+    props: ['users'],
     data: function() {
         return{
             login: '',
             name:'',
             email: '',
             password: '',
-            repeatPassword: ''
+            repeatPassword: '',
+            user: null
 
         }
     },
@@ -125,6 +126,18 @@ Vue.component('userProfile', {
     '<br> </br>'+
 
     '</div>',
+    created: function(){
+        eventBus.$on("clickOnTable", (str)=>{
+        userByLoginApi.get({login: str}).then(result =>
+        result.json().then(data =>
+        data.forEach(user => this.users.push(user))))
+        this.login = this.users.login;
+        this.name = this.users.name;
+        this.email = this.users.email;
+        this.password = this.users.password;
+    });
+    },
+
     methods: {
         updateButtonClick: function () {
             const regexp = /^[a-zA-Z0-9-_]+$/;
