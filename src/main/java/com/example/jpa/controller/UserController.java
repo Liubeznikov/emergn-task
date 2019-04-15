@@ -41,16 +41,16 @@ public class UserController {
          users.forEach(user ->userRepo.save(user));
     }
 
-    @DeleteMapping("{login}")
-    public void deleteUser(@PathVariable("login") String login){
-         userRepo.delete(getOne(login));
+    @DeleteMapping("{id}")
+    public void deleteUser(@PathVariable("id") Long id){
+         userRepo.delete(userRepo.findFirstById(id));
     }
 
-    @PutMapping("{login}")
-    public User userSave(@Valid @RequestBody User user, @PathVariable("login") String login){
+    @PutMapping
+    public User userSave(@Valid @RequestBody User user ){
         User userFromDb;
-        userFromDb = getOne(login);
-        BeanUtils.copyProperties(user,userFromDb,"login");
+        userFromDb = userRepo.findFirstById(user.getId());
+        BeanUtils.copyProperties(user,userFromDb,"id");
         return userRepo.save(userFromDb);
     }
 

@@ -8,14 +8,24 @@ import javax.persistence.*;
 @Entity
 @Table(name = "UserTable")
 @ToString(of = {"login", "name", "email"})
-@EqualsAndHashCode(of = {"login"})
+@EqualsAndHashCode(of = {"id"})
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String login;
     private String password;
     private String name;
     private String email;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
