@@ -1,6 +1,6 @@
 const userApi = Vue.resource('/users{/name}');
 const deleteApi= Vue.resource('/users{/id}');
-const userByLoginApi = Vue.resource('/users/login{/login}');
+
 var eventBus = new Vue();
 function getIndex(list, id) {
     for (let i = 0; i < list.length; i++ ) {

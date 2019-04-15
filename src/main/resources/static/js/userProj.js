@@ -24,7 +24,7 @@ Vue.component('loginForm', {
     '</div>',
     methods:{
         loginButton: function(){
-            alert("Login =" + this.login + "Password =" + this.password)
+
             window.location.href='userListPage.html';
         },
         registerButton: function(){

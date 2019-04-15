@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("login/{login}")
     public User getOne(@PathVariable("login") String login){
-        return userRepo.findByLogin(login).stream().findFirst().orElse(null);
+        return userRepo.findByLogin(login).stream().findFirst().orElseThrow(()->new UserNotFoundExeption("NotFound"));
     }
 
     @PostMapping
